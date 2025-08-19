@@ -7,20 +7,20 @@ const errorHandler = require("./middlewares/errorHandler");
 const app = express();
 const PORT = 3000;
 
-// ---------- Serve Angular frontend ----------
-const angularDistPath = path.join(__dirname, "..", "dist", "scorm-demo", "browser"); 
-app.use(express.static(angularDistPath));
 
 // ---------- API routes ----------
 app.use("/api/upload", uploadRoutes);
 app.use("/api/courses", coursesRoutes);
 
-// ---------- Error handling ----------
-app.use(errorHandler);
 
 // ---------- Serve extracted uploads ----------
 const uploadPath = path.join(__dirname, "../uploads");
 app.use("/uploads", express.static(uploadPath));
+
+
+// ---------- Serve Angular frontend ----------
+const angularDistPath = path.join(__dirname, "..", "dist", "scorm-demo", "browser"); 
+app.use(express.static(angularDistPath));
 
 
 // ---------- Angular fallback (for client-side routing) ----------
@@ -30,6 +30,9 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(angularDistPath, "index.html"));
   }
 });
+
+// ---------- Error handling ----------
+app.use(errorHandler);
 
 // ---------- Start server ----------
 app.listen(PORT, () => {
