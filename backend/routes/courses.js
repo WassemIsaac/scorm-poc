@@ -4,7 +4,7 @@ const path = require("path");
 const { DOMParser } = require("xmldom");
 
 const router = express.Router();
-const UPLOADS_ROOT = path.resolve("/tmp/uploads"); // adjust if needed
+const UPLOADS_ROOT = path.join(__dirname, "../../uploads"); // adjust if needed
 
 // --- GET /api/courses  (list directories) ---
 router.get("/", async (req, res) => {
