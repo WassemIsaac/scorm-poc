@@ -24,8 +24,11 @@ app.use("/uploads", express.static(uploadPath));
 
 
 // ---------- Angular fallback (for client-side routing) ----------
+// Angular fallback (for SPA routes only, NOT /api or /uploads)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(angularDistPath, "index.html"));
+  if (!req.path.startsWith("/api") && !req.path.startsWith("/uploads")) {
+    res.sendFile(path.join(angularDistPath, "index.html"));
+  }
 });
 
 // ---------- Start server ----------
