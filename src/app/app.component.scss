@@ -34,6 +34,11 @@
         &:hover {
           background-color: #f5f5f5;
         }
+
+        .delete-btn {
+          background-color: none;
+          border: none;
+        }
       }
 
       border-right: 1px solid #ccc;

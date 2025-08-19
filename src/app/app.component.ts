@@ -17,12 +17,24 @@ export class AppComponent implements OnInit{
   acceptedFileTypes: string = 'application/zip';
   maxFileSize: number = 6 * 1024 * 1024; // Default 6MB
   minFileSize: number = 0; // Default no minimum
-  courses$: Observable<any> = new Observable();
+  courses: any[] = [];
   selectedCourse: any;
   constructor(private uploadService: UploadService, private coursesService: CoursesService) { }
 
   ngOnInit(): void {
-    this.courses$ = this.coursesService.getCourses();
+    this.getCourses();
+  }
+
+  getCourses(): void {
+    this.coursesService.getCourses().subscribe({
+      next: (courses) => {
+        this.courses = courses;
+      },
+      error: (err) => {
+        console.error('Failed to load courses', err);
+        this.error = 'Failed to load courses. Please try again.';
+      }
+    });
   }
 
   handleUploadFile(file: File): void {
@@ -62,7 +74,7 @@ export class AppComponent implements OnInit{
     this.uploadService.uploadFile(file).subscribe({
       next: (url) => {
         console.log('File uploaded successfully:', url);
-        this.courses$ = this.coursesService.getCourses();
+        this.getCourses();
       },
       error: (err) => {
         console.error('Upload failed', err);
@@ -81,5 +93,19 @@ export class AppComponent implements OnInit{
 
   selectCourse(course: any): void {
     this.selectedCourse = course;
+  }
+
+
+  deleteCourse(folder: string, index: number): void {
+    this.coursesService.deleteCourse(folder).subscribe({
+      next: () => {
+        console.log('Course deleted successfully');
+        this.courses.splice(index, 1); // Remove the course from the list
+      },
+      error: (err) => {
+        console.error('Failed to delete course', err);
+        this.error = 'Failed to delete course. Please try again.';
+      }
+    });
   }
 }

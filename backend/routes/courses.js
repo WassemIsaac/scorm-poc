@@ -119,4 +119,23 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Delete a folder from /uploads folderPath
+router.delete("/:folder", async (req, res) => {
+  const folderName = req.params.folder;
+  const folderPath = path.join(UPLOADS_ROOT, folderName);
+
+  try {
+    if (!fs.existsSync(folderPath)) {
+      return res.status(404).json({ error: "Folder not found" });
+    }
+
+    // Delete the folder
+    await fs.promises.rmdir(folderPath, { recursive: true });
+    res.json({ message: "Folder deleted successfully" });
+  } catch (err) {
+    console.error("deleteFolder failed:", err);
+    res.status(500).json({ error: "Failed to delete folder", details: err.message });
+  }
+});
+
 module.exports = router;

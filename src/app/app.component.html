@@ -15,9 +15,10 @@
     <div class="courses-container">
       <div class="row">
         <div class="courses-list col-md-4">
-          @for (course of (courses$ | async); track $index) {
-            <div class="course-item">
+          @for (course of (courses); track $index; let  i = $index) {
+            <div class="course-item d-flex align-items-center">
               <button class="btn btn-link" (click)="selectCourse(course)">{{ course.name }}</button>
+              <button class="delete-btn d-flex align-items-center justify-content-center" (click)="deleteCourse(course.folder, i)">✖</button>
             </div>
           }
         </div>

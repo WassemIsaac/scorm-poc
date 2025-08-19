@@ -3,6 +3,7 @@ const path = require("path");
 const uploadRoutes = require("./routes/upload");
 const coursesRoutes = require("./routes/courses");
 const errorHandler = require("./middlewares/errorHandler");
+const serveIndex = require('serve-index');
 
 const app = express();
 const PORT = 3000;
@@ -14,9 +15,9 @@ app.use("/api/courses", coursesRoutes);
 
 
 // ---------- Serve extracted uploads ----------
+console.log("Serving uploads from:", path.join(__dirname, "../uploads"));
 const uploadPath = path.join(__dirname, "../uploads");
-app.use("/uploads", express.static(uploadPath));
-
+app.use('/uploads', express.static(uploadPath), serveIndex(uploadPath, { icons: true }));
 
 // ---------- Serve Angular frontend ----------
 const angularDistPath = path.join(__dirname, "..", "dist", "scorm-demo", "browser"); 
