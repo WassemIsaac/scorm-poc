@@ -18,9 +18,15 @@
   .courses-container {
     .courses-list {
       .course-item {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+        .btn-link {
+          text-decoration: none;
+          color: #222;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          text-align: left;
+        }
 
         border-bottom: 1px solid #ccc;
         padding: 1rem 0;
@@ -31,13 +37,11 @@
       }
 
       border-right: 1px solid #ccc;
-            min-height: 80vh;
+      height: 80vh;
 
     }
 
-    .course {
-      
-    }
+    .course {}
   }
 
 }

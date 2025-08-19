@@ -1,5 +1,5 @@
-<div *ngIf="scos.length > 1">
-    <button class="mx-1" *ngFor="let sco of scos"  (click)="launch(sco)">Launch {{ sco?.title }}</button>
+<div *ngIf="course?.scos.length > 1">
+    <button class="mx-1" *ngFor="let sco of course.scos"  (click)="launch(sco)">Launch {{ sco?.title }}</button>
 </div>
 
 <div *ngIf="currentSco">
@@ -13,6 +13,6 @@
 </div>
 
 
-<div *ngIf="!!sequencingWarning" class="text-start alert alert-warning">
+<div *ngIf="!!course?.hasSequencing" class="text-start alert alert-warning">
   Warning: This package uses sequencing rules that are not fully supported
 </div>

@@ -22,6 +22,7 @@ export class ScormApiService {
     if (element === 'adl.nav.request') {
       return this.sequencingRequested;
     }
+    
     return this.cmiData[element] || '';
   }
 

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { UploadService } from './services/upload.service';
 import { Observable } from 'rxjs';
 import { ScormPlayerComponent } from './scorm-player/scorm-player.component';
+import { CoursesService } from './services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,10 @@ export class AppComponent implements OnInit{
   minFileSize: number = 0; // Default no minimum
   courses$: Observable<any> = new Observable();
   selectedCourse: any;
-  constructor(private uploadService: UploadService) { }
+  constructor(private uploadService: UploadService, private coursesService: CoursesService) { }
 
   ngOnInit(): void {
-    this.courses$ = this.uploadService.getCourses();
+    this.courses$ = this.coursesService.getCourses();
   }
 
   handleUploadFile(file: File): void {
@@ -61,7 +62,7 @@ export class AppComponent implements OnInit{
     this.uploadService.uploadFile(file).subscribe({
       next: (url) => {
         console.log('File uploaded successfully:', url);
-        this.courses$ = this.uploadService.getCourses();
+        this.courses$ = this.coursesService.getCourses();
       },
       error: (err) => {
         console.error('Upload failed', err);
@@ -69,9 +70,8 @@ export class AppComponent implements OnInit{
       }
     });
   }
-
-  // Upload
-  async onFileChange(event: Event) {
+  
+  onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
@@ -79,11 +79,7 @@ export class AppComponent implements OnInit{
     this.handleUploadFile(file)
   }
 
-
-
   selectCourse(course: any): void {
-    // Logic to select the course and possibly load it
     this.selectedCourse = course;
-    console.log('Selected course:', this.selectedCourse);
   }
 }
