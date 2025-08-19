@@ -6,7 +6,7 @@ const unzipper = require("unzipper");
 const { pipeline } = require("stream/promises");
 
 const router = express.Router();
-const uploadPath = path.join(__dirname, "../../uploads");
+const uploadPath = path.resolve("/tmp/uploads"); // <- changed from ../../uploads
 
 // Ensure uploads folder exists
 if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });

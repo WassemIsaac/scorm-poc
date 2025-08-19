@@ -15,8 +15,7 @@ app.use("/api/courses", coursesRoutes);
 
 
 // ---------- Serve extracted uploads ----------
-console.log("Serving uploads from:", path.join(__dirname, "../uploads"));
-const uploadPath = path.join(__dirname, "../uploads");
+const uploadPath = path.resolve("/tmp/uploads"); // <- changed from ../uploads
 app.use('/uploads', express.static(uploadPath), serveIndex(uploadPath, { icons: true }));
 
 // ---------- Serve Angular frontend ----------
