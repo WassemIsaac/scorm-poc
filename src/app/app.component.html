@@ -1,7 +1,7 @@
 <div class="row w-100">
   <div class="courses-container">
     <div class="row">
-      <div class="courses-list col-md-4">
+      <div class="courses-list col-md-4 col-lg-3">
 
         <div class="upload-container ">
           @if (!!uploading) {
@@ -36,7 +36,7 @@
         </div>
         }
       </div>
-      <div class="course col-md-8 m-0 p-0" *ngIf="selectedCourse">
+      <div class="course  col-md-8 col-lg-9 m-0 p-0" *ngIf="selectedCourse">
         <app-scorm-player [packageName]="selectedCourse"></app-scorm-player>
       </div>
     </div>
