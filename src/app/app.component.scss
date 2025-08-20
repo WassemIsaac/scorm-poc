@@ -45,8 +45,16 @@
       height: 80vh;
       padding-inline-end: 0;
     }
-
-    .course {}
   }
 
+  .alert {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    gap: 2rem;
+    .alert-close {
+      background: none;
+      border: none;
+    }
+  }
 }

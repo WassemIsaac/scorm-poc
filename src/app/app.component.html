@@ -1,29 +1,59 @@
-  <div class="row w-100">
-    <div class="col-md-12">
-      <div class="upload-container">
-        <label for="file-upload" class="btn btn-primary custom-file-upload">
-          Upload SCORM file
-        </label>
-        <input id="file-upload" type="file" (change)="onFileChange($event)" accept=".zip" />
-        <!-- Show error when occur -->
-        <div *ngIf="error" class="alert alert-danger mt-2 mb-0">{{ error }}</div>
-      </div>
+<div class="row w-100">
+  <div class="col-md-12">
+    <div class="upload-container">
+
+
+      @if (!!uploading) {
+      <button class="custom-file-upload btn btn-primary" disabled>
+        Upload SCORM file
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+
+      </button>
+      }@else {
+      <label for="file-upload" class="btn btn-primary custom-file-upload">
+        Upload SCORM file
+      </label>
+      <input id="file-upload" type="file" (change)="onFileChange($event)" accept=".zip" />
+      }
+
     </div>
+  </div>
 
 
-    <div class="courses-container">
-      <div class="row">
-        <div class="courses-list col-md-4">
-          @for (course of (courses); track $index; let  i = $index) {
-            <div class="course-item d-flex align-items-center">
-              <button class="btn btn-link w-100" (click)="selectCourse(course)">{{ course.name }}</button>
-              <button class="btn-link delete-btn d-flex align-items-center justify-content-center mx-2" (click)="deleteCourse(course.folder, i)">✖</button>
-            </div>
-          }
+  <div class="courses-container">
+    <div class="row">
+      <div class="courses-list col-md-4">
+        @for (course of (courses); track $index; let i = $index) {
+        <div class="course-item d-flex align-items-center">
+          <button class="btn btn-link w-100" (click)="selectCourse(course)">{{ course.name }}</button>
+          <button class="btn-link delete-btn d-flex align-items-center justify-content-center mx-2"
+            (click)="deleteCourse(course.folder, i)">✖</button>
         </div>
-        <div class="course col-md-8 p-2" *ngIf="selectedCourse">
-          <app-scorm-player [packageName]="selectedCourse"></app-scorm-player>
-        </div>
+        }
+      </div>
+      <div class="course col-md-8 p-2" *ngIf="selectedCourse">
+        <app-scorm-player [packageName]="selectedCourse"></app-scorm-player>
       </div>
     </div>
   </div>
+</div>
+
+
+
+<div *ngIf="!!successMsg"
+  class="alert alert-success alert-dismissible fade show d-flex align-items-center justify-content-between  px-3"
+  role="alert">
+  <p class="mb-0">{{ successMsg }}</p>
+  <button type="button" class="alert-close" data-dismiss="alert" aria-label="Close" (click)="successMsg = ''">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="!!errorMsg"
+  class="alert alert-danger alert-dismissible fade show d-flex align-items-center justify-content-between px-3"
+  role="alert">
+  <p class="mb-0">{{ errorMsg }}</p>
+  <button type="button" class="alert-close" data-dismiss="alert" aria-label="Close" (click)="errorMsg = ''">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

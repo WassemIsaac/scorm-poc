@@ -40,7 +40,6 @@ export class ScormPlayerComponent implements OnInit , OnChanges{
         } else {
           console.warn('No launchable items (SCOs) found in the manifest.');
         }
-
       },
       error: (err) => {
         console.error(`Error fetching course with ID ${id}:`, err);

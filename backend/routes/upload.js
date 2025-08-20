@@ -55,6 +55,18 @@ router.post("/", upload.single("file"), async (req, res) => {
     // Open the ZIP and iterate entries
     const directory = await unzipper.Open.file(zipPath);
 
+    // check if the imsmanifest.xml file existed in the root directoy
+    const imsManifestExists = directory.files.some(f => f.path === "imsmanifest.xml");
+    if (!imsManifestExists) {
+      // If you want to return a specific error response, you can do so here
+      await removeFolder(extractDir); // Clean up the extraction directory
+      await fs.promises.unlink(zipPath).catch(() => {
+        console.error("Failed to delete ZIP file:", zipPath);
+      });
+
+      return res.status(400).json({ error: "Invalid SCORM file, imsmanifest.xml not found in ZIP" });
+    }
+
     // Count non-directory entries in zip (expected files)
     const expectedFiles = directory.files.filter(f => f.type !== "Directory").length;
 
