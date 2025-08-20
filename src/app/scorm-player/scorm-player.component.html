@@ -1,14 +1,15 @@
+
+
+<div *ngIf="!!course?.hasSequencing" class="text-start alert alert-warning">
+  Warning: This package uses sequencing rules that are not fully supported
+</div>
 <div class="align-items-stretch" [ngClass]="{'d-flex': course?.scos.length > 1}">
   <div *ngIf="course?.scos.length > 1" class="course-scos-list">
     <button class="mx-1" *ngFor="let sco of course.scos" (click)="launch(sco)">Launch {{ sco?.title }}</button>
   </div>
 
   <div *ngIf="currentSco" class="course-content">
-    <iframe [src]="currentSco.launchUrl | safeUrl" width="100%" height="700" frameborder="1" allowfullscreen></iframe>
+    <iframe class="course-content-iframe" [src]="currentSco.launchUrl | safeUrl" frameborder="1" allowfullscreen></iframe>
   </div>
 </div>
 
-
-<div *ngIf="!!course?.hasSequencing" class="text-start alert alert-warning">
-  Warning: This package uses sequencing rules that are not fully supported
-</div>

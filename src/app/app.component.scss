@@ -7,12 +7,22 @@
     .custom-file-upload {
       border: 1px solid #ccc;
       display: inline-block;
-      padding: 6px 12px;
+      padding: 1rem;
       cursor: pointer;
+      border-radius: 0;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      width: 100%;
+      .spinner-grow {
+        position: absolute;
+        right: 1rem;
+      }
     }
 
-    border-bottom: 1px solid #ccc;
-    padding: 1rem;
+    // border-bottom: 1px solid #ccc;
   }
 
   .courses-container {
@@ -42,8 +52,11 @@
       }
 
       border-right: 1px solid #ccc;
-      height: 80vh;
+      @media screen and (min-width: 768px) {
+        height: 80vh;
+      }
       padding-inline-end: 0;
+
     }
   }
 
@@ -52,6 +65,7 @@
     top: 1rem;
     right: 1rem;
     gap: 2rem;
+
     .alert-close {
       background: none;
       border: none;

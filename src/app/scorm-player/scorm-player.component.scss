@@ -8,12 +8,19 @@
     button {
       text-align: start;
       font-size: 0.9rem;
-      border: 1px solid #ccc;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+
       background: none;
     }
   }
 
   .course-content {
     flex-basis: 75%;
+
+    .course-content-iframe {
+      width: 100%;
+      height: 99vh;
+    }
   }
 }
