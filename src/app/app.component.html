@@ -1,5 +1,4 @@
-<div class="container-fluid">
-  <div class="row">
+  <div class="row w-100">
     <div class="col-md-12">
       <div class="upload-container">
         <label for="file-upload" class="btn btn-primary custom-file-upload">
@@ -17,12 +16,12 @@
         <div class="courses-list col-md-4">
           @for (course of (courses); track $index; let  i = $index) {
             <div class="course-item d-flex align-items-center">
-              <button class="btn btn-link" (click)="selectCourse(course)">{{ course.name }}</button>
-              <button class="delete-btn d-flex align-items-center justify-content-center" (click)="deleteCourse(course.folder, i)">✖</button>
+              <button class="btn btn-link w-100" (click)="selectCourse(course)">{{ course.name }}</button>
+              <button class="btn-link delete-btn d-flex align-items-center justify-content-center mx-2" (click)="deleteCourse(course.folder, i)">✖</button>
             </div>
           }
         </div>
-        <div class="course col-md-8  p-4" *ngIf="selectedCourse">
+        <div class="course col-md-8 p-2" *ngIf="selectedCourse">
           <app-scorm-player [packageName]="selectedCourse"></app-scorm-player>
         </div>
       </div>

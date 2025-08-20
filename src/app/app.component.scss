@@ -24,7 +24,6 @@
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          width: 100%;
           text-align: left;
         }
 
@@ -36,14 +35,15 @@
         }
 
         .delete-btn {
-          background-color: none;
+          background-color: transparent;
           border: none;
+
         }
       }
 
       border-right: 1px solid #ccc;
       height: 80vh;
-
+      padding-inline-end: 0;
     }
 
     .course {}

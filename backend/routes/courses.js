@@ -24,7 +24,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// --- GET /api/courses/:id  (get course by ID or folder name) ---
+// --- GET /api/courses/:id  (get course by ID) ---
+/**
+ * It first get the course folder,
+ * then go inside it and search for imsmanifest.xml,
+ * then parse the XML to extract course metadata (SCOs list with their launchable URLs).
+ */
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -74,37 +79,41 @@ router.get("/:id", async (req, res) => {
     const orgsElem = xmlDoc.getElementsByTagName("organizations")[0];
     if (!orgsElem) return res.status(400).json({ error: "No <organizations> element found in manifest" });
 
-    const defaultOrgId = orgsElem.getAttribute("default") || "";
+    const defaultOrgId = orgsElem.getAttribute("default") || null;
+
+    const orgNodes = xmlDoc.getElementsByTagName("organization") || [];
     let organization = null;
-    const orgNodes = xmlDoc.getElementsByTagName("organization");
-    for (let j = 0; j < orgNodes.length; j++) {
-      if (defaultOrgId && orgNodes[j].getAttribute("identifier") === defaultOrgId) {
-        organization = orgNodes[j];
-        break;
+    if (defaultOrgId) {
+      for (let i = 0; i < orgNodes.length; i++) {
+        if (orgNodes[i].getAttribute && orgNodes[i].getAttribute("identifier") === defaultOrgId) {
+          organization = orgNodes[i];
+          break;
+        }
       }
     }
     if (!organization && orgNodes.length > 0) organization = orgNodes[0];
     if (!organization) return res.status(400).json({ error: "Organization not found in manifest" });
 
-     // --- check sequencing ---
-    const sequencingNode = organization.getElementsByTagName("imsss:sequencing")[0] 
-                          || organization.getElementsByTagName("sequencing")[0];
+    // --- check sequencing ---
+    const sequencingNode = organization.getElementsByTagName("imsss:sequencing")[0]
+      || organization.getElementsByTagName("sequencing")[0];
     const hasSequencing = !!sequencingNode;
 
     // --- build SCO list ---
     const itemNodes = Array.from(organization.getElementsByTagName("item")).filter(item => item.getAttribute("identifierref"));
     const scos = itemNodes
-    .map(item => {
-      const id = item.getAttribute("identifier") || "";
-      const titleNode = item.getElementsByTagName("title")[0];
-      const title = titleNode?.textContent?.trim() || "Untitled";
-      const identifierRef = item.getAttribute("identifierref");
-      const resource = resourcesMap.get(identifierRef);
+      .map(item => {
+        const id = item.getAttribute("identifier") || "";
+        const titleNode = item.getElementsByTagName("title")[0];
+        const title = titleNode?.textContent?.trim() || "Untitled";
+        const identifierRef = item.getAttribute("identifierref");
+        const resource = resourcesMap.get(identifierRef);
+        const parameters = item.getAttribute("parameters") || "";
 
-      const launchUrl = `/uploads/${folderName}/${resource.href}`;
-      return { id, title, launchUrl,  scormType: resource.scormType || "" };
-    })
-    .filter(x => x !== null);
+        const launchUrl = `/uploads/${folderName}/${resource.href}${parameters}`;
+        return { id, title, launchUrl, scormType: resource.scormType || "" };
+      })
+      .filter(x => x !== null);
 
     res.json({
       name: folderName.includes("-") ? folderName.split("-").pop() : folderName,

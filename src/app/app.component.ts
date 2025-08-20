@@ -101,6 +101,7 @@ export class AppComponent implements OnInit{
       next: () => {
         console.log('Course deleted successfully');
         this.courses.splice(index, 1); // Remove the course from the list
+        this.selectedCourse = null
       },
       error: (err) => {
         console.error('Failed to delete course', err);

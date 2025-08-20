@@ -49,8 +49,6 @@ router.post("/", upload.single("file"), async (req, res) => {
   const folderName = req.file.filename.replace(/\.zip$/i, "");
   const extractDir = path.join(UPLOADS_ROOT, folderName);
 
-  console.log(`Start extraction: zip=${zipPath} -> dir=${extractDir}`);
-
   try {
     await fs.promises.mkdir(extractDir, { recursive: true });
 
@@ -59,7 +57,6 @@ router.post("/", upload.single("file"), async (req, res) => {
 
     // Count non-directory entries in zip (expected files)
     const expectedFiles = directory.files.filter(f => f.type !== "Directory").length;
-    console.log(`ZIP contains ${expectedFiles} files (excluding directories)`);
 
     for (const entry of directory.files) {
       const entryPath = path.join(extractDir, entry.path);
@@ -90,12 +87,10 @@ router.post("/", upload.single("file"), async (req, res) => {
       if (st.size === 0) {
         throw new Error(`Extracted file has zero size: ${entry.path}`);
       }
-      console.log(`Extracted: ${entry.path} (${st.size} bytes)`);
     }
 
     // Verify extracted file count matches expected
     const actualFiles = await countFiles(extractDir);
-    console.log(`Extraction done. expected=${expectedFiles}, actual=${actualFiles}`);
 
     if (actualFiles !== expectedFiles) {
       throw new Error(`Extraction incomplete: expected ${expectedFiles} files but found ${actualFiles}`);

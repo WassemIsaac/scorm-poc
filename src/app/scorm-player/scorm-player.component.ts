@@ -8,6 +8,7 @@ import { CoursesService } from '../services/courses.service';
 @Component({
   selector: 'app-scorm-player',
   templateUrl: './scorm-player.component.html',
+  styleUrls: ['./scorm-player.component.scss'],
   imports:  [CommonModule , SafeUrlPipe]
 })
 export class ScormPlayerComponent implements OnInit , OnChanges{

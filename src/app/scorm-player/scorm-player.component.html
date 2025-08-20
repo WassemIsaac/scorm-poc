@@ -1,15 +1,11 @@
-<div *ngIf="course?.scos.length > 1">
-    <button class="mx-1" *ngFor="let sco of course.scos"  (click)="launch(sco)">Launch {{ sco?.title }}</button>
-</div>
+<div class="align-items-stretch" [ngClass]="{'d-flex': course?.scos.length > 1}">
+  <div *ngIf="course?.scos.length > 1" class="course-scos-list">
+    <button class="mx-1" *ngFor="let sco of course.scos" (click)="launch(sco)">Launch {{ sco?.title }}</button>
+  </div>
 
-<div *ngIf="currentSco">
-  <iframe
-    [src]="currentSco.launchUrl | safeUrl"
-    width="100%"
-    height="700"
-    frameborder="1"
-    allowfullscreen
-    ></iframe>
+  <div *ngIf="currentSco" class="course-content">
+    <iframe [src]="currentSco.launchUrl | safeUrl" width="100%" height="700" frameborder="1" allowfullscreen></iframe>
+  </div>
 </div>
 
 
